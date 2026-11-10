@@ -143,9 +143,9 @@ export async function processEtominPayment(payment: PaymentData) {
       status: data.status,
       data,
     };
-  } catch (error: any) {
-    const errorMsg = error.response?.data?.message || error.message || "Error procesando el pago con Etomin.";
-    console.error("[Etomin Payment Error]", error.response?.data || error.message);
+  } catch (error: unknown) {
+    const errorMsg = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as { message?: string }).message || "Error procesando el pago con Etomin.";
+    console.error("[Etomin Payment Error]", (error as { response?: { data?: { message?: string } } }).response?.data || (error as { message?: string }).message);
     return {
       success: false,
       status: "error",
