@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 343 100% 98%;
+    --foreground: 321 62% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 321 62% 8%;
+    --popover: 343 100% 99%;
+    --popover-foreground: 321 62% 8%;
+    --primary: 327 100% 45%;
+    --primary-foreground: 343 100% 98%;
+    --secondary: 74 100% 62%;
+    --secondary-foreground: 321 62% 8%;
+    --muted: 338 70% 94%;
+    --muted-foreground: 321 18% 36%;
+    --accent: 333 100% 92%;
+    --accent-foreground: 321 62% 8%;
+    --destructive: 352 85% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 330 35% 86%;
+    --input: 330 30% 80%;
+    --ring: 327 100% 45%;
+    --radius: 1.1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "ss01", "ss02";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: #e6007e;
+    color: #fff4f7;
+  }
+  em,
+  .em {
+    font-family: var(--font-instrument), serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  /* Paper grain over everything */
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Barragán-style arch */
+  .arch {
+    border-radius: 9999px 9999px 0 0;
+  }
+  .arch-soft {
+    border-radius: 9999px 9999px 1.25rem 1.25rem;
+  }
+
+  /* Ticket with side notches at --notch-y */
+  .ticket {
+    --notch: 13px;
+    -webkit-mask:
+      radial-gradient(circle var(--notch) at 0 var(--notch-y, 60%), #0000 98%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--notch) at 100% var(--notch-y, 60%), #0000 98%, #000) right / 51% 100% no-repeat;
+    mask:
+      radial-gradient(circle var(--notch) at 0 var(--notch-y, 60%), #0000 98%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--notch) at 100% var(--notch-y, 60%), #0000 98%, #000) right / 51% 100% no-repeat;
+  }
+
+  .perforation {
+    background-image: linear-gradient(to right, currentColor 50%, transparent 0%);
+    background-size: 10px 1.5px;
+    background-repeat: repeat-x;
+    height: 1.5px;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[0.68rem] uppercase tracking-[0.18em];
+  }
+
+  .barcode {
+    background-image: repeating-linear-gradient(
+      90deg,
+      currentColor 0 2px,
+      transparent 2px 4px,
+      currentColor 4px 5px,
+      transparent 5px 8px,
+      currentColor 8px 11px,
+      transparent 11px 12px
+    );
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1.5px currentColor;
+    color: transparent;
+  }
+
+  .stamp-ring {
+    background: conic-gradient(from 0deg, #e6007e, #d4ff3f, #e6007e);
+  }
+
+  /* Scroll reveal */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 0.9s cubic-bezier(0.2, 0.7, 0.1, 1),
+      transform 0.9s cubic-bezier(0.2, 0.7, 0.1, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal="in"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Split-flap cells */
+  .flap-cell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(#3a1230 0 49%, #22081a 49% 51%, #2e0c24 51% 100%);
+    color: #fff4f7;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
