@@ -6,7 +6,7 @@ import { ArrowUpRight, Search, X } from "lucide-react";
 import { TicketCard } from "@/components/site/TicketCard";
 import { Reveal } from "@/components/site/Reveal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CATEGORIES, PRODUCTS, type Category } from "@/lib/products";
+import { CATEGORIES, PRODUCTS, getLocalizedProduct, type Category } from "@/lib/products";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -25,7 +25,7 @@ export function CatalogView({
   initialCategory: string | null;
   initialQuery: string;
 }) {
-  const { dict } = useLanguage();
+  const { lang, dict } = useLanguage();
   const valid = CATEGORIES.includes(initialCategory as Category) ? (initialCategory as Category) : null;
   const [category, setCategory] = useState<Category | null>(valid);
   const [query, setQuery] = useState(initialQuery);
@@ -40,10 +40,14 @@ export function CatalogView({
   const results = useMemo(() => {
     const q = normalize(query.trim());
     let list = PRODUCTS.filter((p) => (category ? p.category === category : true));
+    
+    // Mapear productos con su versión localizada según el idioma actual
+    let localizedList = list.map((p) => getLocalizedProduct(p, lang));
+
     if (q) {
-      list = list.filter((p) => normalize(`${p.title} ${p.short} ${p.region} ${p.summary} ${p.category}`).includes(q));
+      localizedList = localizedList.filter((p) => normalize(`${p.title} ${p.short} ${p.region} ${p.summary} ${p.category}`).includes(q));
     }
-    const sorted = [...list];
+    const sorted = [...localizedList];
     switch (sort) {
       case "precio-asc":
         sorted.sort((a, b) => a.price - b.price);
@@ -52,13 +56,13 @@ export function CatalogView({
         sorted.sort((a, b) => b.price - a.price);
         break;
       case "nombre":
-        sorted.sort((a, b) => a.short.localeCompare(b.short, "es"));
+        sorted.sort((a, b) => a.short.localeCompare(b.short, lang === "en" ? "en" : "es"));
         break;
       default:
         sorted.sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
     }
     return sorted;
-  }, [category, query, sort]);
+  }, [category, query, sort, lang]);
 
   const getCategoryLabel = (cat: Category): string => {
     const categoriesMap = dict.catalogView.categories as Record<string, string>;

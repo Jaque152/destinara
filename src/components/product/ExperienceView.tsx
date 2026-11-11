@@ -1,16 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Check, ChevronRight, Clock, Info, Lightbulb, MapPin,X } from "lucide-react";
+import { ArrowUpRight, Check, ChevronRight, Clock, Info, Lightbulb, MapPin, X } from "lucide-react";
 import { BookingWidget } from "@/components/product/BookingWidget";
 import { TicketCard } from "@/components/site/TicketCard";
 import { Reveal } from "@/components/site/Reveal";
-import { formatMXN, type Product } from "@/lib/products";
+import { formatMXN, getLocalizedProduct, type Product } from "@/lib/products";
 import { useLanguage } from "@/context/LanguageContext";
 
-export function ExperienceView({ product, related }: { product: Product; related: Product[] }) {
-  const { dict } = useLanguage();
+export function ExperienceView({ product: rawProduct, related }: { product: Product; related: Product[] }) {
+  const { lang, dict } = useLanguage();
+  const product = getLocalizedProduct(rawProduct, lang);
   const categoryLabel = dict.catalogView.categories[product.category] || product.category;
+
+  const hasWhyOrSpecial = product.why || product.special;
+  const hasIncludesOrExcludes = (product.includes && product.includes.length > 0) || (product.excludes && product.excludes.length > 0);
+  const hasInfoOrTips = (product.info && product.info.length > 0) || product.tips;
 
   return (
     <>
@@ -46,7 +51,6 @@ export function ExperienceView({ product, related }: { product: Product; related
         </div>
 
         <div className="relative mt-10 h-[52vh] min-h-[22rem] animate-rise overflow-hidden rounded-[2.5rem] [animation-delay:240ms] md:h-[64vh]">
-          
           <img src={product.image} alt={product.short} className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-vino/70 via-vino/10 to-transparent" />
           <div className="absolute inset-x-4 bottom-4 flex flex-wrap gap-2 sm:inset-x-6 sm:bottom-6">
@@ -62,78 +66,98 @@ export function ExperienceView({ product, related }: { product: Product; related
         <div className="space-y-16 lg:col-span-7 xl:col-span-8">
           <Reveal>
             <p className="eyebrow text-rosa">{dict.experiencePage.eyebrow}</p>
-            <p className="mt-5 text-[clamp(1.4rem,2.4vw,2rem)] font-medium leading-[1.3] tracking-[-0.02em] text-vino">
-              {product.summary}
-            </p>
-          </Reveal>
-
-          <div className="grid gap-10 md:grid-cols-2">
-            <Reveal>
-              <h2 className="text-2xl font-bold tracking-tight text-vino">
-                {dict.experiencePage.whyTitle} <em className="font-normal text-rosa">{dict.experiencePage.whyTitleEm}</em>?
-              </h2>
-              <p className="mt-4 leading-relaxed text-vino/70">{product.why}</p>
-            </Reveal>
-            <Reveal delay={100}>
-              <h2 className="text-2xl font-bold tracking-tight text-vino">
-                {dict.experiencePage.specialTitle} <em className="font-normal text-rosa">{dict.experiencePage.specialTitleEm}</em>?
-              </h2>
-              <p className="mt-4 leading-relaxed text-vino/70">{product.special}</p>
-            </Reveal>
-          </div>
-
-          <Reveal>
-            <div className="grid overflow-hidden rounded-[2rem] bg-white md:grid-cols-2">
-              <div className="p-8">
-                <p className="eyebrow text-rosa">{dict.experiencePage.includes}</p>
-                <ul className="mt-5 space-y-3">
-                  {product.includes.map((item) => (
-                    <li key={item} className="flex gap-3 text-[0.95rem] leading-snug text-vino">
-                      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-lima">
-                        <Check className="h-3 w-3" strokeWidth={3} />
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="border-t border-dashed border-vino/15 bg-blush-200/50 p-8 md:border-l md:border-t-0">
-                <p className="eyebrow text-vino/60">{dict.experiencePage.excludes}</p>
-                <ul className="mt-5 space-y-3">
-                  {product.excludes?.map((item) => (
-                    <li key={item} className="flex gap-3 text-[0.95rem] leading-snug text-vino/70">
-                      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-vino/10">
-                        <X className="h-3 w-3" strokeWidth={3} />
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="mt-5 space-y-4 text-[clamp(1.2rem,2vw,1.6rem)] font-medium leading-[1.4] tracking-[-0.015em] text-vino">
+              {product.summary.split("\n").filter(Boolean).map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
             </div>
           </Reveal>
 
-          <div className="grid gap-10 md:grid-cols-2">
+          {hasWhyOrSpecial && (
+            <div className={`grid gap-10 ${product.why && product.special ? "md:grid-cols-2" : ""}`}>
+              {product.why && (
+                <Reveal>
+                  <h2 className="text-2xl font-bold tracking-tight text-vino">
+                    {dict.experiencePage.whyTitle} <em className="font-normal text-rosa">{dict.experiencePage.whyTitleEm}</em>?
+                  </h2>
+                  <p className="mt-4 leading-relaxed text-vino/70">{product.why}</p>
+                </Reveal>
+              )}
+              {product.special && (
+                <Reveal delay={100}>
+                  <h2 className="text-2xl font-bold tracking-tight text-vino">
+                    {dict.experiencePage.specialTitle} <em className="font-normal text-rosa">{dict.experiencePage.specialTitleEm}</em>?
+                  </h2>
+                  <p className="mt-4 leading-relaxed text-vino/70">{product.special}</p>
+                </Reveal>
+              )}
+            </div>
+          )}
+
+          {hasIncludesOrExcludes && (
             <Reveal>
-              <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-vino">
-                <Info className="h-5 w-5 text-rosa" /> {dict.experiencePage.importantInfo}
-              </h2>
-              <ul className="mt-4 space-y-2.5">
-                {product.info?.map((item) => (
-                  <li key={item} className="flex gap-3 text-sm leading-relaxed text-vino/70">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-rosa" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <div className={`grid overflow-hidden rounded-[2rem] bg-white ${product.includes && product.excludes ? "md:grid-cols-2" : ""}`}>
+                {product.includes && product.includes.length > 0 && (
+                  <div className="p-8">
+                    <p className="eyebrow text-rosa">{dict.experiencePage.includes}</p>
+                    <ul className="mt-5 space-y-3">
+                      {product.includes.map((item) => (
+                        <li key={item} className="flex gap-3 text-[0.95rem] leading-snug text-vino">
+                          <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-lima">
+                            <Check className="h-3 w-3" strokeWidth={3} />
+                          </span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {product.excludes && product.excludes.length > 0 && (
+                  <div className="border-t border-dashed border-vino/15 bg-blush-200/50 p-8 md:border-l md:border-t-0">
+                    <p className="eyebrow text-vino/60">{dict.experiencePage.excludes}</p>
+                    <ul className="mt-5 space-y-3">
+                      {product.excludes.map((item) => (
+                        <li key={item} className="flex gap-3 text-[0.95rem] leading-snug text-vino/70">
+                          <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-vino/10">
+                            <X className="h-3 w-3" strokeWidth={3} />
+                          </span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </Reveal>
-            <Reveal delay={100}>
-              <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-vino">
-                <Lightbulb className="h-5 w-5 text-rosa" /> {dict.experiencePage.recommendations}
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-vino/70">{product.tips}</p>
-            </Reveal>
-          </div>
+          )}
+
+          {hasInfoOrTips && (
+            <div className={`grid gap-10 ${product.info && product.tips ? "md:grid-cols-2" : ""}`}>
+              {product.info && product.info.length > 0 && (
+                <Reveal>
+                  <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-vino">
+                    <Info className="h-5 w-5 text-rosa" /> {dict.experiencePage.importantInfo}
+                  </h2>
+                  <ul className="mt-4 space-y-2.5">
+                    {product.info.map((item) => (
+                      <li key={item} className="flex gap-3 text-sm leading-relaxed text-vino/70">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-rosa" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              )}
+              {product.tips && (
+                <Reveal delay={100}>
+                  <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-vino">
+                    <Lightbulb className="h-5 w-5 text-rosa" /> {dict.experiencePage.recommendations}
+                  </h2>
+                  <p className="mt-4 text-sm leading-relaxed text-vino/70">{product.tips}</p>
+                </Reveal>
+              )}
+            </div>
+          )}
         </div>
 
         <aside className="lg:col-span-5 xl:col-span-4">

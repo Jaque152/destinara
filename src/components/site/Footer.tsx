@@ -92,12 +92,20 @@ export function Footer() {
       <div className="border-t border-blush/10">
         <div className="container flex flex-col items-start justify-between gap-4 py-6 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-blush/55 sm:flex-row sm:items-center">
           <span>© 2026 Destinara · {CONTACT.domain}</span>
-          <div className="flex items-center gap-2">
-            {["Visa", "Mastercard"].map((p) => (
-              <span key={p} className="rounded-md border border-blush/15 px-2 py-1 text-[0.6rem] text-blush/70">
-                {p}
-              </span>
-            ))}
+          <div className="flex items-center gap-3">
+            {/* Visa Logo SVG */}
+            <div className="flex h-7 w-12 items-center justify-center rounded bg-white/10 px-1.5 py-1">
+              <svg viewBox="0 0 38 12" className="h-full w-full fill-current text-blush/80" aria-label="Visa">
+                <path d="M14.12 0.35L9.12 11.65H5.85L3.38 2.82C3.21 2.14 2.89 1.93 2.31 1.64C1.3 1.13 0.28 0.77 0 0.71L0.12 0.35H5.06C5.7 0.35 6.27 0.79 6.42 1.54L7.6 7.64L10.63 0.35H14.12ZM26.4 8.01C26.41 5.01 22.11 4.85 22.15 3.33C22.17 2.86 22.61 2.37 23.58 2.25C24.08 2.18 25.46 2.13 26.91 2.81L27.52 0.53C26.74 0.24 25.72 0 24.47 0C21.2 0 18.91 1.76 18.89 4.23C18.87 6.01 20.44 6.99 21.63 7.57C22.86 8.17 23.27 8.56 23.26 9.11C23.24 9.96 22.28 10.32 21.39 10.34C19.9 10.37 18.99 9.94 18.3 9.64L17.65 11.97C18.41 12.31 19.81 12.65 21.31 12.64C24.73 12.64 26.39 10.95 26.4 8.01ZM34.2 11.65H37.33L34.61 0.35H31.78C31.22 0.35 30.74 0.69 30.53 1.21L26.06 11.65H29.53L30.22 9.71H34.45L34.2 11.65ZM31.18 7.42L32.84 3.03L33.78 7.42H31.18ZM18.42 0.35L15.42 11.65H12.38L15.38 0.35H18.42Z" />
+              </svg>
+            </div>
+            {/* Mastercard Logo SVG */}
+            <div className="flex h-7 w-12 items-center justify-center rounded bg-white/10 px-1.5 py-1">
+              <svg viewBox="0 0 24 15" className="h-full w-full" aria-label="Mastercard">
+                <circle cx="9" cy="7.5" r="7" fill="#EB001B" />
+                <circle cx="15" cy="7.5" r="7" fill="#F79E1B" fillOpacity="0.8" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
