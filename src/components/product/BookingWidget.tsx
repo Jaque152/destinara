@@ -17,8 +17,7 @@ export function BookingWidget({ product }: { product: Product }) {
   const { add, setOpen } = useCart();
   const [minDate, setMinDate] = useState("");
   const [date, setDate] = useState("");
-  const [adults, setAdults] = useState(product.minPeople);
-  const [error, setError] = useState<string | null>(null);
+  const [adults, setAdults] = useState(1);  const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
@@ -104,10 +103,10 @@ export function BookingWidget({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={() => {
-                  setAdults((a) => Math.max(product.minPeople, a - 1));
+                  setAdults((a) => Math.max(1, a - 1)); // Forzar mínimo a 1
                   setAdded(false);
                 }}
-                disabled={adults <= product.minPeople}
+                disabled={adults <= 1} 
                 className="grid h-9 w-9 place-items-center rounded-xl bg-white text-vino transition-colors hover:bg-vino hover:text-blush disabled:opacity-30"
                 aria-label="Quitar adulto"
               >
@@ -128,11 +127,6 @@ export function BookingWidget({ product }: { product: Product }) {
                 <Plus className="h-4 w-4" />
               </button>
             </div>
-            {product.minPeople > 1 && (
-              <p className="mt-2 text-xs text-vino/50">
-                {dict.bookingWidget.minPeopleNotice.replace("{count}", String(product.minPeople))}
-              </p>
-            )}
           </div>
 
           <div className="text-vino/15">

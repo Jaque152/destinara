@@ -2,8 +2,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy");
 
-const FROM_EMAIL = process.env.EMAIL_FROM || "Destinara <concierge@destinara.mx>";
-const ADMIN_EMAIL = process.env.EMAIL_ADMIN || "concierge@destinara.mx";
+const FROM_EMAIL = process.env.EMAIL_FROM;
+const ADMIN_EMAIL = process.env.EMAIL_ADMIN ;
 
 interface OrderEmailProps {
   orderId: string;
@@ -23,7 +23,6 @@ interface OrderEmailProps {
 }
 
 interface ContactEmailProps {
-  ticket: string;
   name: string;
   email: string;
   phone: string;
@@ -180,43 +179,151 @@ export async function sendContactNotificationEmail(props: ContactEmailProps) {
 
   const isEn = props.lang === "en";
 
-  const adminSubject = `[Nuevo Mensaje] ${props.ticket} - ${props.name}`;
+  const adminSubject = `[Nuevo Mensaje] ${props.name} · Destinara`;
   const userSubject = isEn
-    ? `We received your inquiry [${props.ticket}] · Destinara`
-    : `Hemos recibido tu mensaje [${props.ticket}] · Destinara`;
+    ? `We received your inquiry · Destinara`
+    : `Hemos recibido tu mensaje · Destinara`;
 
-  // 1. Email para el administrador / Concierge
+  // 1. Email estilizado para el administrador / Concierge
   const adminHtml = `
-    <div style="font-family:sans-serif; color:#22081A; padding:20px;">
-      <h2>Nueva consulta desde el sitio web (${props.ticket})</h2>
-      <p><strong>Nombre:</strong> ${props.name}</p>
-      <p><strong>Email:</strong> ${props.email}</p>
-      <p><strong>Teléfono:</strong> ${props.phone || "No proporcionado"}</p>
-      <p><strong>Interés:</strong> ${props.interest}</p>
-      <p><strong>Mensaje:</strong></p>
-      <blockquote style="background:#FDF8F5; padding:15px; border-left:4px solid #E6007E;">
-        ${props.message.replace(/\n/g, "<br>")}
-      </blockquote>
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${adminSubject}</title>
+</head>
+<body style="margin:0; padding:0; background-color:#FDF8F5; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; color:#22081A;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#FDF8F5; padding:40px 10px;">
+    <tr>
+      <td align="center">
+        <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color:#ffffff; border-radius:24px; overflow:hidden; box-shadow:0 10px 30px rgba(34,8,26,0.08);">
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#22081A; padding:32px 40px; text-align:center;">
+              <h1 style="margin:0; color:#FDF8F5; font-size:26px; font-weight:800; letter-spacing:-0.5px;">DESTINARA</h1>
+              <p style="margin:6px 0 0; color:#D4E157; font-size:11px; text-transform:uppercase; letter-spacing:2px; font-family:monospace;">
+                NUEVO MENSAJE DE CONTACTO
+              </p>
+            </td>
+          </tr>
+          <!-- Content -->
+          <tr>
+            <td style="padding:40px;">
+              <h2 style="margin:0 0 16px; font-size:20px; font-weight:700; color:#22081A;">Detalles de la consulta</h2>
+              
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top:1px solid #F2E8E4; margin-bottom:24px;">
+                <tr>
+                  <td style="padding:14px 0; border-bottom:1px solid #F8EFEC; font-size:14px;">
+                    <strong style="color:#22081A;">Nombre:</strong> <span style="color:#554450;">${props.name}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0; border-bottom:1px solid #F8EFEC; font-size:14px;">
+                    <strong style="color:#22081A;">Email:</strong> <a href="mailto:${props.email}" style="color:#E6007E; text-decoration:none;">${props.email}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0; border-bottom:1px solid #F8EFEC; font-size:14px;">
+                    <strong style="color:#22081A;">Teléfono:</strong> <span style="color:#554450;">${props.phone || "No proporcionado"}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0; border-bottom:1px solid #F8EFEC; font-size:14px;">
+                    <strong style="color:#22081A;">Interés:</strong> <span style="color:#554450;">${props.interest}</span>
+                  </td>
+                </tr>
+              </table>
+
+              <h3 style="margin:0 0 12px; font-size:16px; font-weight:700; color:#22081A;">Mensaje:</h3>
+              <div style="background-color:#FDF8F5; padding:20px; border-left:4px solid #E6007E; border-radius:4px; font-size:14px; line-height:1.6; color:#554450;">
+                ${props.message.replace(/\n/g, "<br>")}
+              </div>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#F8EFEC; padding:24px 40px; text-align:center; font-size:12px; color:#776670;">
+              Destinara · Área de Concierge
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
   `;
 
-  // 2. Email de confirmación para el usuario
+  // 2. Email estilizado de confirmación para el usuario
   const userHtml = `
-    <div style="font-family:sans-serif; color:#22081A; padding:30px; background:#FDF8F5;">
-      <div style="max-width:550px; margin:0 auto; background:#fff; padding:30px; border-radius:16px;">
-        <h2 style="color:#22081A; margin-top:0;">${isEn ? `Thank you, ${props.name.split(" ")[0]}` : `Gracias, ${props.name.split(" ")[0]}`}</h2>
-        <p style="color:#554450; line-height:1.6;">
-          ${
-            isEn
-              ? `We have received your message regarding <strong>"${props.interest}"</strong>. A Destinara concierge will get back to you in under 24 hours.`
-              : `Hemos recibido tu mensaje sobre <strong>"${props.interest}"</strong>. Un concierge de Destinara te escribirá en menos de 24 horas.`
-          }
-        </p>
-        <p style="font-family:monospace; font-size:12px; color:#887780; margin-top:20px;">
-          ${isEn ? "Reference Ticket:" : "Folio de atención:"} ${props.ticket}
-        </p>
-      </div>
-    </div>
+<!DOCTYPE html>
+<html lang="${isEn ? "en" : "es"}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${userSubject}</title>
+</head>
+<body style="margin:0; padding:0; background-color:#FDF8F5; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; color:#22081A;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#FDF8F5; padding:40px 10px;">
+    <tr>
+      <td align="center">
+        <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color:#ffffff; border-radius:24px; overflow:hidden; box-shadow:0 10px 30px rgba(34,8,26,0.08);">
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#22081A; padding:32px 40px; text-align:center;">
+              <h1 style="margin:0; color:#FDF8F5; font-size:26px; font-weight:800; letter-spacing:-0.5px;">DESTINARA</h1>
+              <p style="margin:6px 0 0; color:#D4E157; font-size:11px; text-transform:uppercase; letter-spacing:2px; font-family:monospace;">
+                ${isEn ? "CONCIERGE DESK" : "CONCIERGE PERSONAL"}
+              </p>
+            </td>
+          </tr>
+          <!-- Content -->
+          <tr>
+            <td style="padding:40px;">
+              <h2 style="margin:0 0 16px; font-size:24px; font-weight:700; color:#22081A;">
+                ${isEn ? `Thank you, ${props.name.split(" ")[0]}!` : `¡Gracias, ${props.name.split(" ")[0]}!`}
+              </h2>
+              <p style="margin:0 0 32px; font-size:15px; line-height:1.6; color:#554450;">
+                ${
+                  isEn
+                    ? `We have received your message regarding <strong>"${props.interest}"</strong>. A Destinara concierge will review your request and get back to you personally.`
+                    : `Hemos recibido tu mensaje acerca de <strong>"${props.interest}"</strong>. Un concierge de Destinara revisará tu solicitud y te escribirá personalmente.`
+                }
+              </p>
+
+              <!-- Banner Concierge -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#22081A; border-radius:16px; padding:24px; color:#FDF8F5;">
+                <tr>
+                  <td>
+                    <p style="margin:0; font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:#D4E157; font-family:monospace;">
+                      ${isEn ? "WHAT HAPPENS NEXT?" : "¿QUÉ SIGUE?"}
+                    </p>
+                    <p style="margin:8px 0 0; font-size:14px; line-height:1.5; color:#FDF8F5;">
+                      ${
+                        isEn
+                          ? "Our team is already working on your request. Expect a reply in under 24 hours. If you need immediate assistance, simply reply to this email."
+                          : "Nuestro equipo ya está analizando tu solicitud. Te responderemos en menos de 24 horas. Si necesitas asistencia inmediata, puedes responder directamente a este correo."
+                      }
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#F8EFEC; padding:24px 40px; text-align:center; font-size:12px; color:#776670;">
+              Destinara · Edición y producción de viajes por México<br>
+              Ciudad de México · <a href="https://destinara.mx" style="color:#E6007E; text-decoration:none;">destinara.mx</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
   `;
 
   try {

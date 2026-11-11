@@ -27,7 +27,6 @@ export function ContactForm({ preset }: { preset?: string }) {
   const [privacy, setPrivacy] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
-  const [ticket, setTicket] = useState("");
 
   const set = (k: keyof typeof values, v: string) => {
     setValues((s) => ({ ...s, [k]: v }));
@@ -62,7 +61,6 @@ export function ContactForm({ preset }: { preset?: string }) {
         if (data.errors) setErrors(data.errors);
         throw new Error(data.error ?? "Revisa los campos marcados.");
       }
-      setTicket(data.ticket);
       setStatus("sent");
     } catch (err) {
       setStatus("idle");
@@ -88,11 +86,7 @@ export function ContactForm({ preset }: { preset?: string }) {
         <div className="my-8 text-vino/15">
           <div className="perforation" />
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-vino/50">{dict.contactView.ticketLabel}</p>
-            <p className="mt-1 font-mono text-xl font-semibold tracking-widest text-vino">{ticket}</p>
-          </div>
+        <div className="flex flex-wrap items-center justify-end gap-4">
           <Button
             variant="outline"
             onClick={() => {

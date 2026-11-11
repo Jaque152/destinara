@@ -59,7 +59,7 @@ const raw: Product[] = [
     region: "Guanajuato",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.sanMiguel,
     featured: true,
     summary:
@@ -85,7 +85,7 @@ const raw: Product[] = [
     region: "Estado de México",
     duration: "8 horas",
     departure: "Salida desde CDMX",
-    minPeople: 3,
+    minPeople: 1,
     image: IMG.teotihuacanBalloons,
     featured: true,
     summary:
@@ -123,7 +123,7 @@ const raw: Product[] = [
     region: "Guerrero",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.taxco,
     summary:
       "Nado en las Pozas Azules de Atzala, aguas turquesa entre montañas, y una tarde en Taxco, la ciudad de la plata, con su templo de Santa Prisca y sus callejones blancos.",
@@ -148,7 +148,7 @@ const raw: Product[] = [
     region: "Estado de México",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.forestLake,
     summary:
       "Bosques de oyamel, la presa del Llano y un pueblo mágico conocido por su piel trabajada a mano y su gastronomía de montaña.",
@@ -173,7 +173,7 @@ const raw: Product[] = [
     region: "Puebla",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.waterfall,
     summary:
       "Sendero entre bosque de niebla hasta las Cascadas La Morena y visita al pueblo mágico de Huauchinango, en la Sierra Norte de Puebla.",
@@ -198,7 +198,7 @@ const raw: Product[] = [
     region: "Jalisco · Nayarit",
     duration: "3 días / 2 noches",
     departure: "En destino",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.whale,
     featured: true,
     summary:
@@ -225,7 +225,7 @@ const raw: Product[] = [
     region: "Estado de México",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.pottery,
     summary:
       "El monumental Centro Ceremonial Otomí entre bosques y Metepec, cuna del Árbol de la Vida, con sus talleres de barro policromado.",
@@ -250,7 +250,7 @@ const raw: Product[] = [
     region: "Puebla",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.hotSprings,
     summary:
       "Pozas termales en medio de la sierra y un pueblo mágico famoso por sus esferas navideñas hechas a mano y su kiosco mudéjar.",
@@ -275,7 +275,7 @@ const raw: Product[] = [
     region: "Morelos",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.tepoztlan,
     summary:
       "El jardín floral más grande del mundo, con más de 50 hectáreas temáticas, y una tarde entre mercados y montañas en Tepoztlán.",
@@ -300,7 +300,7 @@ const raw: Product[] = [
     region: "Guerrero",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.cave,
     summary:
       "Salones subterráneos de hasta 80 metros de altura con formaciones milenarias y una tarde de plata y barroco en Taxco.",
@@ -325,7 +325,7 @@ const raw: Product[] = [
     region: "Guanajuato",
     duration: "2 días / 1 noche",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.guanajuato,
     featured: true,
     summary:
@@ -352,7 +352,7 @@ const raw: Product[] = [
     region: "Tlaxcala",
     duration: "1 noche",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.flowerCarpet,
     summary:
       "Kilómetros de alfombras de aserrín y flores elaboradas durante la noche del 14 de agosto en honor a la Virgen de la Caridad.",
@@ -377,7 +377,7 @@ const raw: Product[] = [
     region: "San Luis Potosí",
     duration: "3 días / 2 noches",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.huasteca,
     featured: true,
     summary:
@@ -405,7 +405,7 @@ const raw: Product[] = [
     region: "Veracruz",
     duration: "3 días / 2 noches",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.jungleCoast,
     summary:
       "La selva tropical más al norte del continente, la laguna de Catemaco, el Salto de Eyipantla y los acantilados de Punta Roca Partida.",
@@ -431,7 +431,7 @@ const raw: Product[] = [
     region: "Tlaxcala",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.sunflowers,
     summary:
       "Visita a un apiario familiar con cata de mieles y una caminata entre campos de girasoles en temporada.",
@@ -455,7 +455,7 @@ const raw: Product[] = [
     region: "Puebla",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.cholula,
     summary:
       "La Gran Pirámide de Cholula con el Popocatépetl de fondo, cata de cerveza artesanal y la Villa Iluminada de Atlixco al anochecer.",
@@ -479,7 +479,7 @@ const raw: Product[] = [
     region: "Veracruz",
     duration: "1 día",
     departure: "Salida desde Poza Rica",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.gulfBeach,
     summary:
       "Playas tranquilas del Golfo, la ceremonia de los Voladores de Papantla y el aroma a vainilla del pueblo mágico.",
@@ -503,7 +503,7 @@ const raw: Product[] = [
     region: "Yucatán · Quintana Roo · Campeche",
     duration: "8 días / 7 noches",
     departure: "En destino",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.chichenItza,
     featured: true,
     summary:
@@ -531,7 +531,7 @@ const raw: Product[] = [
     region: "Tlaxcala",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.fireflies,
     featured: true,
     summary:
@@ -556,7 +556,7 @@ const raw: Product[] = [
     region: "Estado de México",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.monarch,
     summary:
       "Millones de mariposas monarca cubriendo los oyameles del santuario Piedra Herrada y una tarde junto al lago de Valle de Bravo.",
@@ -580,7 +580,7 @@ const raw: Product[] = [
     region: "Veracruz",
     duration: "2 días / 1 noche",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.seaTurtle,
     summary:
       "Liberación de tortugas marinas en un campamento de conservación en Tecolutla y visita a la cultura totonaca de Papantla.",
@@ -627,7 +627,7 @@ const raw: Product[] = [
     region: "Jalisco",
     duration: "1 día",
     departure: "Salida desde Guadalajara",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.papelPicado,
     summary:
       "Calles de papel picado, galerías y mariachi en Tlaquepaque y el parque temático navideño Navidalia por la noche.",
@@ -651,7 +651,7 @@ const raw: Product[] = [
     region: "Jalisco",
     duration: "2 días / 1 noche",
     departure: "Salida desde Guadalajara",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.agave,
     featured: true,
     summary:
@@ -677,7 +677,7 @@ const raw: Product[] = [
     region: "Tlaxcala",
     duration: "1 día",
     departure: "Salida desde CDMX",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.pinkWall,
     summary:
       "Santuario de girasoles en temporada y la villa de estilo toscano Val'Quirico, con sus callejones de piedra y restaurantes.",
@@ -701,7 +701,7 @@ const raw: Product[] = [
     region: "Ciudad de México",
     duration: "4 horas",
     departure: "Roma · Condesa",
-    minPeople: 2,
+    minPeople: 1,
     image: IMG.burger,
     summary:
       "Tres paradas en las mejores hamburgueserías de autor de la Roma y la Condesa, con historia del barrio entre bocado y bocado.",
@@ -753,7 +753,7 @@ export const computeDiscount = (subtotal: number, code: string | null) => {
 export const CONTACT = {
   phone: "+52 55 0000 0000",
   phoneHref: "tel:+525500000000",
-  email: "reserva@destinara.com.mx",
+  email: "atencion@destinara.com.mx",
   city: "CDMX · México",
   domain: "destinara.com.mx",
 };

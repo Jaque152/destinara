@@ -325,7 +325,6 @@ export const es = {
     receivedMessagePrefix: "Gracias,",
     receivedMessageMiddle: ". Un concierge de Destinara te escribirá a",
     receivedMessageSuffix: "en menos de 24 horas.",
-    ticketLabel: "Folio de conversación",
     sendAnother: "Enviar otro mensaje",
     errors: {
       name: "Escribe tu nombre.",

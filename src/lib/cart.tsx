@@ -96,8 +96,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) =>
       prev.map((i) => {
         if (i.id !== id) return i;
-        const min = getProduct(i.slug)?.minPeople ?? 1;
-        return { ...i, adults: Math.max(min, Math.min(20, adults)) };
+        return { ...i, adults: Math.max(1, Math.min(20, adults)) };
       }),
     );
   }, []);

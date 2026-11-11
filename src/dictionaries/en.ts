@@ -327,7 +327,6 @@ export const en: Dictionary = {
     receivedMessagePrefix: "Thank you,",
     receivedMessageMiddle: ". A Destinara concierge will respond to",
     receivedMessageSuffix: "in under 24 hours.",
-    ticketLabel: "Conversation reference",
     sendAnother: "Send another message",
     errors: {
       name: "Enter your name.",

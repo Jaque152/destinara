@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Check, ChevronRight, Clock, Info, Lightbulb, MapPin, Users, X } from "lucide-react";
+import { ArrowUpRight, Check, ChevronRight, Clock, Info, Lightbulb, MapPin,X } from "lucide-react";
 import { BookingWidget } from "@/components/product/BookingWidget";
 import { TicketCard } from "@/components/site/TicketCard";
 import { Reveal } from "@/components/site/Reveal";
@@ -52,9 +52,6 @@ export function ExperienceView({ product, related }: { product: Product; related
           <div className="absolute inset-x-4 bottom-4 flex flex-wrap gap-2 sm:inset-x-6 sm:bottom-6">
             <Pill icon={<MapPin className="h-3.5 w-3.5" />}>{product.region}</Pill>
             <Pill icon={<Clock className="h-3.5 w-3.5" />}>{product.duration}</Pill>
-            <Pill icon={<Users className="h-3.5 w-3.5" />}>
-              {dict.experiencePage.minPeople.replace("{count}", String(product.minPeople))}
-            </Pill>
             <Pill>{product.departure}</Pill>
           </div>
         </div>
