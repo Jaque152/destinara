@@ -2,8 +2,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy");
 
-const FROM_EMAIL = process.env.EMAIL_FROM;
-const ADMIN_EMAIL = process.env.EMAIL_ADMIN ;
+const FROM_EMAIL: string = process.env.EMAIL_FROM || "Destinara <atencion@destinara.com.mx>";
+const ADMIN_EMAIL: string = process.env.EMAIL_ADMIN || "atencion@destinara.com.mx";
 
 interface OrderEmailProps {
   orderId: string;
