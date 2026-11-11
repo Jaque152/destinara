@@ -26,8 +26,7 @@ export async function POST(req: Request) {
   const honeypot = String(body.website ?? "");
   const lang = (body.lang as "es" | "en") || "es";
 
-  // Silently accept bots
-  if (honeypot) return NextResponse.json({ ok: true, ticket: "OK" });
+  if (honeypot) return NextResponse.json({ ok: true });
 
   const errors: Record<string, string> = {};
   if (name.length < 2) errors.name = "Escribe tu nombre.";
@@ -40,11 +39,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, errors }, { status: 422 });
   }
 
-  const ticket = `CNV-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-
-  // Disparo de correos vía Resend
   await sendContactNotificationEmail({
-    ticket,
     name,
     email,
     phone,
@@ -53,5 +48,5 @@ export async function POST(req: Request) {
     lang,
   });
 
-  return NextResponse.json({ ok: true, ticket });
+  return NextResponse.json({ ok: true });
 }
