@@ -147,7 +147,7 @@ export default function Home() {
         <div className="container grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
           <Reveal className="relative mx-auto w-full max-w-lg">
             <div className="arch aspect-[4/5] overflow-hidden border-[6px] border-blush shadow-[0_40px_80px_-40px_rgba(34,8,26,0.6)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              
               <img src={IMG.hacienda} alt="Hacienda en Yucatán" className="h-full w-full object-cover" />
             </div>
             <span className="absolute -left-3 top-16 -rotate-6 rounded-lg bg-lima px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-vino shadow-lg">
@@ -191,11 +191,11 @@ export default function Home() {
         <div className="container relative grid items-center gap-16 lg:grid-cols-12">
           <Reveal className="relative mx-auto h-[30rem] w-full max-w-md lg:col-span-5 lg:h-[36rem]">
             <div className="arch absolute left-0 top-0 h-[88%] w-[72%] overflow-hidden border-[6px] border-blush/90">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              
               <img src={IMG.atelierNotebook} alt="Cuaderno de viaje" className="h-full w-full object-cover" />
             </div>
             <div className="absolute bottom-0 right-0 aspect-square w-[52%] overflow-hidden rounded-full border-[6px] border-blush/90">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              
               <img src={IMG.mexicanFood} alt="Mesa mexicana" className="h-full w-full object-cover" />
             </div>
             <span className="absolute right-6 top-10 rotate-6 rounded-full bg-lima px-4 py-2 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-vino">

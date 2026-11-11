@@ -46,7 +46,7 @@ export function ExperienceView({ product, related }: { product: Product; related
         </div>
 
         <div className="relative mt-10 h-[52vh] min-h-[22rem] animate-rise overflow-hidden rounded-[2.5rem] [animation-delay:240ms] md:h-[64vh]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          
           <img src={product.image} alt={product.short} className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-vino/70 via-vino/10 to-transparent" />
           <div className="absolute inset-x-4 bottom-4 flex flex-wrap gap-2 sm:inset-x-6 sm:bottom-6">

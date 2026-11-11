@@ -46,7 +46,7 @@ export function ContactView({ initialInteres }: { initialInteres?: string }) {
                 className={`arch absolute animate-rise overflow-hidden border-[5px] border-blush/90 ${a.cls}`}
                 style={{ animationDelay: a.d }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                
                 <img src={a.src} alt="" className="h-full w-full object-cover" />
               </div>
             ))}

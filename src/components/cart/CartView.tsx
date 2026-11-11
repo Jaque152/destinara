@@ -104,7 +104,7 @@ export function CartView() {
                       href={`/experiencia/${line.slug}`}
                       className="arch-soft h-28 w-24 shrink-0 overflow-hidden bg-rosa-100"
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      
                       <img src={line.product.image} alt="" className="h-full w-full object-cover" />
                     </Link>
                     <div className="min-w-0">

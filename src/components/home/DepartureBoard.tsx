@@ -115,7 +115,7 @@ export function DepartureBoard() {
                   )}
                 >
                   <span className="arch-soft h-16 w-12 overflow-hidden lg:hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    
                     <img src={row.image} alt="" className="h-full w-full object-cover" />
                   </span>
                   <span className="hidden text-sm lg:block">
@@ -168,7 +168,6 @@ export function DepartureBoard() {
             style={{ transform: hovered === null ? undefined : "rotate(-4deg)" }}
           >
             {ROWS.map((row, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={row.code}
                 src={row.image}

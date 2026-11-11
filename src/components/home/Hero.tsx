@@ -64,11 +64,11 @@ export function Hero() {
             <div className="h-full w-full animate-sun-rise rounded-full bg-rosa" />
           </div>
           <div className="arch absolute bottom-0 left-1/2 h-[86%] w-[72%] -translate-x-1/2 overflow-hidden border-[6px] border-blush bg-rosa-100 shadow-[0_40px_80px_-30px_rgba(34,8,26,0.55)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            
             <img src={IMG.monarch} alt="Arquitectura mexicana" className="h-full w-full object-cover" />
           </div>
           <div className="arch absolute -left-2 bottom-6 h-44 w-32 overflow-hidden border-[5px] border-blush shadow-xl sm:h-56 sm:w-40 lg:-left-10">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            
             <img src={IMG.yucatanCenote} alt="Cenote en Yucatán" className="h-full w-full object-cover" />
           </div>
           <div className="absolute -right-2 top-[4%] h-32 w-32 sm:h-36 sm:w-36 lg:-right-6">

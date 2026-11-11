@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Loader2, Lock, Send } from "lucide-react";
+import Link from 'next/link';
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -204,9 +205,9 @@ export function ContactForm({ preset }: { preset?: string }) {
             />
             <span className="text-sm leading-relaxed text-vino/75">
               {dict.contactView.privacyPrefix}{" "}
-              <a href="/legal/privacidad" className="font-semibold text-vino underline decoration-rosa underline-offset-4">
+              <Link href="/legal/privacidad/" className="font-semibold text-vino underline decoration-rosa underline-offset-4">
                 {dict.contactView.privacyLink}
-              </a>{" "}
+              </Link>
               {dict.contactView.privacySuffix}
             </span>
           </label>

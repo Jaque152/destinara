@@ -448,7 +448,7 @@ export function CheckoutView() {
                   {lines.map((l) => (
                     <li key={l.id} className="flex gap-3 py-4">
                       <div className="arch-soft h-16 w-12 shrink-0 overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        
                         <img src={l.product.image} alt="" className="h-full w-full object-cover" />
                       </div>
                       <div className="min-w-0 flex-1">

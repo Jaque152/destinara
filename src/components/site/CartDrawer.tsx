@@ -53,7 +53,7 @@ export function CartDrawer() {
                     onClick={() => setOpen(false)}
                     className="arch-soft h-24 w-20 shrink-0 overflow-hidden bg-rosa-100"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    
                     <img src={line.product.image} alt="" className="h-full w-full object-cover" />
                   </Link>
                   <div className="flex min-w-0 flex-1 flex-col">
