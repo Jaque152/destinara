@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, Phone, Quote } from "lucide-react";
+import { ArrowUpRight, Mail,MapPinned, BriefcaseBusiness, Phone, Quote } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { Reveal } from "@/components/site/Reveal";
 import { IMG } from "@/lib/images";
@@ -88,10 +88,19 @@ export function ContactView({ initialInteres }: { initialInteres?: string }) {
             </Reveal>
             <Reveal delay={200}>
               <InfoCard
-                icon={<MapPin className="h-5 w-5" />}
+                icon={<MapPinned className="h-5 w-5" />}
                 label={dict.contactPage.locationLabel}
                 value={dict.contactPage.locationValue}
                 meta={dict.contactPage.locationMeta}
+              />
+            </Reveal>
+
+            <Reveal delay={220}>
+              <InfoCard
+                icon={<BriefcaseBusiness className="h-5 w-5" />}
+                label={dict.contactPage.officeLabel}
+                value={dict.contactPage.officeValue}
+                meta={dict.contactPage.officeMeta}
               />
             </Reveal>
 

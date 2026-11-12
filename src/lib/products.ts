@@ -1251,9 +1251,9 @@ export const computeDiscount = (subtotal: number, code: string | null) => {
 };
 
 export const CONTACT = {
-  phone: "+52 55 0000 0000",
-  phoneHref: "tel:+525500000000",
+  phone: "+52 1 55 5206 0126 ",
+  phoneHref: "tel:+5215552060126 ",
   email: "atencion@destinara.com.mx",
-  city: "CDMX · México",
+  city: "Perif. Blvd. Manuel Ávila Camacho 170, Reforma Soc, Miguel Hidalgo, 11650 Ciudad de México, CDMX ",
   domain: "destinara.com.mx",
 };
