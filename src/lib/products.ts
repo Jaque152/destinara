@@ -584,3 +584,26 @@ export function formatMXN(amount: number): string {
     maximumFractionDigits: 0,
   }).format(amount);
 }
+
+export const formatMXNShort = (n: number) => `$${n.toLocaleString("es-MX")}`;
+
+export const COUPONS: Record<string, { label: string; type: "percent" | "fixed"; value: number }> = {
+  DESTINARA10: { label: "10% de bienvenida", type: "percent", value: 10 },
+  CRITERIO500: { label: "$500 de descuento", type: "fixed", value: 500 },
+};
+
+export const computeDiscount = (subtotal: number, code: string | null) => {
+  if (!code) return 0;
+  const c = COUPONS[code];
+  if (!c) return 0;
+  if (c.type === "percent") return Math.round(subtotal * (c.value / 100));
+  return Math.min(c.value, subtotal);
+};
+
+export const CONTACT = {
+  phone: "+52 1 55 5206 0126",
+  phoneHref: "+5215552060126",
+  email: "atencion@destinara.com.mx",
+  city: "CDMX · México",
+  domain: "destinara.com.mx",
+};
