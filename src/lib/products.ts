@@ -1,4 +1,5 @@
 import { IMG } from "./images";
+import { PRODUCT_DESCRIPTIONS, PRODUCT_EXTRA_DESCRIPTIONS } from "./productDescriptions";
 
 export const CATEGORIES = [
   "Pueblos Mágicos",
@@ -1193,16 +1194,62 @@ const raw: Product[] = [
   },
 ];
 
-export const PRODUCTS: Product[] = raw.map((p) => ({
-  ...p,
-  excludes: p.excludes ?? DEFAULT_EXCLUDES,
-  info: p.info ?? [
-    `El tour requiere un mínimo de ${p.minPeople} ${p.minPeople === 1 ? "persona" : "personas"} para operar`,
-    ...DEFAULT_INFO,
-    `Duración aproximada: ${p.duration}`,
-  ],
-  tips: p.tips ?? DEFAULT_TIPS,
-}));
+export const PRODUCTS: Product[] = raw.map((p) => {
+  const descriptions = PRODUCT_DESCRIPTIONS[p.slug];
+  const extraDescriptions = PRODUCT_EXTRA_DESCRIPTIONS[p.slug];
+
+  return {
+    ...p,
+
+    // Descripciones en español
+    summary: descriptions?.es.summary ?? p.summary,
+    why: extraDescriptions?.es.why ?? p.why,
+    special: extraDescriptions?.es.special ?? p.special,
+    includes: descriptions?.es.includes ?? p.includes,
+    excludes:
+      descriptions?.es.excludes ??
+      p.excludes ??
+      DEFAULT_EXCLUDES,
+    tips:
+      descriptions?.es.tips ??
+      p.tips ??
+      DEFAULT_TIPS,
+
+    // Descripciones en inglés
+    en: p.en
+      ? {
+          ...p.en,
+          summary:
+            descriptions?.en.summary ??
+            p.en.summary,
+          why:
+            extraDescriptions?.en.why ??
+            p.en.why,
+          special:
+            extraDescriptions?.en.special ??
+            p.en.special,
+          includes:
+            descriptions?.en.includes ??
+            p.en.includes,
+          excludes:
+            descriptions?.en.excludes ??
+            p.en.excludes,
+          tips:
+            descriptions?.en.tips ??
+            p.en.tips,
+        }
+      : p.en,
+
+    // Información operativa original
+    info: p.info ?? [
+      `El tour requiere un mínimo de ${p.minPeople} ${
+        p.minPeople === 1 ? "persona" : "personas"
+      } para operar`,
+      ...DEFAULT_INFO,
+      `Duración aproximada: ${p.duration}`,
+    ],
+  };
+});
 
 export function getLocalizedProduct(product: Product, lang: "es" | "en"): Product {
   if (lang === "en" && product.en) {
