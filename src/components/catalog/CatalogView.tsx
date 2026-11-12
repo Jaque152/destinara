@@ -39,7 +39,7 @@ export function CatalogView({
 
   const results = useMemo(() => {
     const q = normalize(query.trim());
-    let list = PRODUCTS.filter((p) => (category ? p.category === category : true));
+    const list = PRODUCTS.filter((p) => (category ? p.category === category : true));
     
     // Mapear productos con su versión localizada según el idioma actual
     let localizedList = list.map((p) => getLocalizedProduct(p, lang));
