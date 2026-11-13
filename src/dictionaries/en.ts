@@ -359,7 +359,26 @@ export const en: Dictionary = {
     durationLabel: "Duration",
     departureLabel: "Departure",
   },
-  // Agregar al objeto en:
+  pagoFolio: {
+    eyebrow: "Secure Payment",
+    title: "Bespoke",
+    titleEm: "folio",
+    description: "Enter the details provided by your concierge to add your custom experience to the cart and proceed with checkout.",
+    nameLabel: "Full Name",
+    namePlaceholder: "Reservation name",
+    folioLabel: "Folio Number",
+    folioPlaceholder: "E.g. DST-1234",
+    priceLabel: "Amount to pay (MXN)",
+    pricePlaceholder: "E.g. 15000",
+    addBtn: "Add to cart",
+    processing: "Adding...",
+    successToast: "Folio added to your itinerary",
+    errors: {
+      name: "Enter a valid name.",
+      folio: "Folio number is required.",
+      price: "Enter a valid amount greater than 0.",
+    }
+  },
   contactPage: {
     heroEyebrow: "Let's Talk",
     heroTitle: "An extraordinary journey",
@@ -390,6 +409,7 @@ export const en: Dictionary = {
     ctaTitleEm: "catalog",
     ctaDesc: "Our curated selection of signature routes — sunrise balloon flights, mystical cenotes, culinary journeys, and comprehensive country tours.",
     ctaBtn: "Explore full catalog",
+    folioBtn: "Pay a bespoke folio",
   },
   experiencePage: {
     notFound: "Experience not found",

@@ -166,7 +166,12 @@ export function CheckoutView() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           lang,
-          items: lines.map((l) => ({ slug: l.slug, date: l.date, adults: l.adults })),
+          items: lines.map((l) => ({ 
+            slug: l.slug, 
+            date: l.date, 
+            adults: l.adults,
+            unitPrice: l.product.price // Esto permite cobrar folios a la medida
+          })),
           coupon,
           customer: {
             firstName: form.firstName,
@@ -342,80 +347,66 @@ export function CheckoutView() {
             </Block>
 
             {/* Payment */}
-            {/* Payment */}
             <Block n="03" title={dict.checkoutView.paymentBlockTitle} subtitle={dict.checkoutView.paymentBlockSub}>
               {form.method === "card" && (
-                <div className="mt-6 space-y-6">
-                  {/* Etomin Secure Payment Banner */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-blush/60 p-4 border border-vino/10">
-                    <div className="flex items-center gap-3">
-                      <span className="font-mono text-xs uppercase tracking-wider text-vino/60">Pago seguro con</span>
-                      <img src="/etomin_logo.svg" alt="Etomin" className="h-6 w-auto object-contain" />
-                    </div>
-                    <div>
-                      <img src="/etomin_secbadge.svg" alt="Secure Payment Badge" className="h-7 w-auto object-contain" />
-                    </div>
-                  </div>
-
-                  <div className="grid animate-rise gap-6 md:grid-cols-[1fr_260px]">
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <Field id="cardNumber" label={dict.checkoutView.cardNumber} error={errors.cardNumber} className="sm:col-span-2">
-                        <div className="relative">
-                          <Input
-                            id="f-cardNumber"
-                            inputMode="numeric"
-                            autoComplete="cc-number"
-                            value={form.cardNumber}
-                            onChange={(e) => set("cardNumber", formatCard(e.target.value))}
-                            aria-invalid={!!errors.cardNumber}
-                            placeholder="4242 4242 4242 4242"
-                            className="pr-28 font-mono tracking-wider"
-                          />
-                          {brand && (
-                            <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md bg-vino px-2 py-1 font-mono text-[0.6rem] uppercase tracking-widest text-lima">
-                              {brand}
-                            </span>
-                          )}
-                        </div>
-                      </Field>
-                      <Field id="cardName" label={dict.checkoutView.cardName} error={errors.cardName} className="sm:col-span-2">
+                <div className="mt-6 grid animate-rise gap-6 md:grid-cols-[1fr_260px]">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <Field id="cardNumber" label={dict.checkoutView.cardNumber} error={errors.cardNumber} className="sm:col-span-2">
+                      <div className="relative">
                         <Input
-                          id="f-cardName"
-                          autoComplete="cc-name"
-                          value={form.cardName}
-                          onChange={(e) => set("cardName", e.target.value)}
-                          aria-invalid={!!errors.cardName}
-                          placeholder="FRIDA KAHLO"
-                          className="uppercase"
-                        />
-                      </Field>
-                      <Field id="cardExp" label={dict.checkoutView.cardExp} error={errors.cardExp}>
-                        <Input
-                          id="f-cardExp"
+                          id="f-cardNumber"
                           inputMode="numeric"
-                          autoComplete="cc-exp"
-                          value={form.cardExp}
-                          onChange={(e) => set("cardExp", formatExp(e.target.value))}
-                          aria-invalid={!!errors.cardExp}
-                          placeholder="MM/AA"
-                          className="font-mono"
+                          autoComplete="cc-number"
+                          value={form.cardNumber}
+                          onChange={(e) => set("cardNumber", formatCard(e.target.value))}
+                          aria-invalid={!!errors.cardNumber}
+                          placeholder="4242 4242 4242 4242"
+                          className="pr-28 font-mono tracking-wider"
                         />
-                      </Field>
-                      <Field id="cardCvc" label={dict.checkoutView.cardCvc} error={errors.cardCvc}>
-                        <Input
-                          id="f-cardCvc"
-                          inputMode="numeric"
-                          autoComplete="cc-csc"
-                          value={form.cardCvc}
-                          onChange={(e) => set("cardCvc", e.target.value.replace(/\D/g, "").slice(0, 4))}
-                          aria-invalid={!!errors.cardCvc}
-                          placeholder="123"
-                          className="font-mono"
-                        />
-                      </Field>
-                    </div>
-                    <CardPreview number={form.cardNumber} name={form.cardName} exp={form.cardExp} brand={brand} />
+                        {brand && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md bg-vino px-2 py-1 font-mono text-[0.6rem] uppercase tracking-widest text-lima">
+                            {brand}
+                          </span>
+                        )}
+                      </div>
+                    </Field>
+                    <Field id="cardName" label={dict.checkoutView.cardName} error={errors.cardName} className="sm:col-span-2">
+                      <Input
+                        id="f-cardName"
+                        autoComplete="cc-name"
+                        value={form.cardName}
+                        onChange={(e) => set("cardName", e.target.value)}
+                        aria-invalid={!!errors.cardName}
+                        placeholder="FRIDA KAHLO"
+                        className="uppercase"
+                      />
+                    </Field>
+                    <Field id="cardExp" label={dict.checkoutView.cardExp} error={errors.cardExp}>
+                      <Input
+                        id="f-cardExp"
+                        inputMode="numeric"
+                        autoComplete="cc-exp"
+                        value={form.cardExp}
+                        onChange={(e) => set("cardExp", formatExp(e.target.value))}
+                        aria-invalid={!!errors.cardExp}
+                        placeholder="MM/AA"
+                        className="font-mono"
+                      />
+                    </Field>
+                    <Field id="cardCvc" label={dict.checkoutView.cardCvc} error={errors.cardCvc}>
+                      <Input
+                        id="f-cardCvc"
+                        inputMode="numeric"
+                        autoComplete="cc-csc"
+                        value={form.cardCvc}
+                        onChange={(e) => set("cardCvc", e.target.value.replace(/\D/g, "").slice(0, 4))}
+                        aria-invalid={!!errors.cardCvc}
+                        placeholder="123"
+                        className="font-mono"
+                      />
+                    </Field>
                   </div>
+                  <CardPreview number={form.cardNumber} name={form.cardName} exp={form.cardExp} brand={brand} />
                 </div>
               )}
             </Block>
@@ -462,7 +453,7 @@ export function CheckoutView() {
                   {lines.map((l) => (
                     <li key={l.id} className="flex gap-3 py-4">
                       <div className="arch-soft h-16 w-12 shrink-0 overflow-hidden">
-                        
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={l.product.image} alt="" className="h-full w-full object-cover" />
                       </div>
                       <div className="min-w-0 flex-1">

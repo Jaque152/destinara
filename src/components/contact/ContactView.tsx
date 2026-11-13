@@ -114,6 +114,17 @@ export function ContactView({ initialInteres }: { initialInteres?: string }) {
                 <div className="pointer-events-none absolute -bottom-12 -right-8 h-32 w-24 rounded-t-full bg-vino/30" />
               </blockquote>
             </Reveal>
+            <Reveal delay={300}>
+              <div className="mt-6 flex">
+                <Link
+                  href="/pago-folio"
+                  className="group inline-flex h-14 w-full items-center justify-between rounded-[1.5rem] bg-vino px-6 font-semibold text-blush transition-colors hover:bg-rosa"
+                >
+                  {dict.contactPage.folioBtn || "Pagar un folio a la medida"}
+                  <ArrowUpRight className="h-5 w-5 transition-transform group-hover:rotate-45" />
+                </Link>
+              </div>
+            </Reveal>
           </aside>
 
           <div className="lg:col-span-7">

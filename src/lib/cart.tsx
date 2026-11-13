@@ -10,12 +10,19 @@ import {
   type ReactNode,
 } from "react";
 import { COUPONS, computeDiscount, getProduct, type Product } from "./products";
+// Asegúrate de importar alguna imagen por defecto desde products/images
+import { IMG } from "./images"; 
 
 export interface CartItem {
   id: string;
   slug: string;
   date: string; // YYYY-MM-DD
   adults: number;
+  // Campos dinámicos para Folios a la Medida
+  isCustom?: boolean;
+  customName?: string;
+  customPrice?: number;
+  customerName?: string;
 }
 
 export interface CartLine extends CartItem {
@@ -36,6 +43,7 @@ interface CartContextValue {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   add: (slug: string, date: string, adults: number) => void;
+  addCustomFolio: (payload: { slug: string; folioName: string; customerName: string; price: number; date: string }) => void;
   updateAdults: (id: string, adults: number) => void;
   updateDate: (id: string, date: string) => void;
   remove: (id: string) => void;
@@ -60,7 +68,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as CartItem[];
-        setItems(parsed.filter((i) => getProduct(i.slug)));
+        // Ahora permitimos items si existen en el catálogo O si son custom
+        setItems(parsed.filter((i) => i.isCustom || getProduct(i.slug)));
       }
       const c = window.localStorage.getItem(COUPON_KEY);
       if (c && COUPONS[c]) setCoupon(c);
@@ -92,11 +101,34 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  // Nueva función para folios dinámicos
+  const addCustomFolio = useCallback((payload: { slug: string; folioName: string; customerName: string; price: number; date: string }) => {
+    const id = `${payload.slug}__${payload.date}`;
+    setItems((prev) => {
+      const existing = prev.find((i) => i.id === id);
+      if (existing) {
+        return prev.map((i) => (i.id === id ? { ...i, customPrice: payload.price, customName: payload.folioName } : i));
+      }
+      return [...prev, { 
+        id, 
+        slug: payload.slug, 
+        date: payload.date, 
+        adults: 1, 
+        isCustom: true,
+        customName: payload.folioName,
+        customPrice: payload.price,
+        customerName: payload.customerName
+      }];
+    });
+  }, []);
+
   const updateAdults = useCallback((id: string, adults: number) => {
     setItems((prev) =>
       prev.map((i) => {
         if (i.id !== id) return i;
-        return { ...i, adults: Math.max(1, Math.min(20, adults)) };
+        if (i.isCustom) return i; // No permitimos cambiar la cantidad de personas en un folio fijo
+        const min = getProduct(i.slug)?.minPeople ?? 1;
+        return { ...i, adults: Math.max(min, Math.min(20, adults)) };
       }),
     );
   }, []);
@@ -139,13 +171,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CartContextValue>(() => {
     const lines: CartLine[] = items
       .map((i) => {
-        const product = getProduct(i.slug);
+        let product = getProduct(i.slug);
+        
+        // Reconstrucción del producto para folios a la medida
+        if (!product && i.isCustom) {
+          product = {
+            slug: i.slug,
+            code: i.slug.replace("folio-", "").toUpperCase(),
+            title: i.customName || "Folio a la medida",
+            short: i.customName || "Folio",
+            category: "Circuitos", // Fallback válido
+            price: i.customPrice || 0,
+            region: "Destinara",
+            duration: "Variable",
+            departure: "A la medida",
+            minPeople: 1,
+            image: IMG.pinkWall || "", // Reemplaza con un fallback que exista en tus imágenes
+            summary: "Experiencia personalizada",
+            why: "",
+            special: "",
+            includes: ["Experiencia a la medida"],
+          } as Product;
+        }
+
         if (!product) return null;
         return { ...i, product, lineTotal: product.price * i.adults };
       })
       .filter((l): l is CartLine => l !== null);
+      
     const subtotal = lines.reduce((s, l) => s + l.lineTotal, 0);
     const discount = computeDiscount(subtotal, coupon);
+    
     return {
       items,
       lines,
@@ -159,6 +215,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       isOpen,
       setOpen,
       add,
+      addCustomFolio,
       updateAdults,
       updateDate,
       remove,
@@ -166,7 +223,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       applyCoupon,
       removeCoupon,
     };
-  }, [items, coupon, hydrated, isOpen, add, updateAdults, updateDate, remove, clear, applyCoupon, removeCoupon]);
+  }, [items, coupon, hydrated, isOpen, add, addCustomFolio, updateAdults, updateDate, remove, clear, applyCoupon, removeCoupon]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

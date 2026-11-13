@@ -275,6 +275,26 @@ export const es = {
       country: "Escribe tu país de residencia.",
     },
   },
+  pagoFolio: {
+    eyebrow: "Pago Seguro",
+    title: "Folio a la",
+    titleEm: "medida",
+    description: "Ingresa los datos proporcionados por tu concierge para añadir tu experiencia personalizada al carrito y proceder con el pago.",
+    nameLabel: "Nombre completo",
+    namePlaceholder: "Nombre de quien reserva",
+    folioLabel: "Número de Folio",
+    folioPlaceholder: "Ej. DST-1234",
+    priceLabel: "Monto a pagar (MXN)",
+    pricePlaceholder: "Ej. 15000",
+    addBtn: "Añadir al carrito",
+    processing: "Añadiendo...",
+    successToast: "Folio añadido a tu itinerario",
+    errors: {
+      name: "Ingresa un nombre válido.",
+      folio: "El folio es requerido.",
+      price: "Ingresa un monto válido mayor a 0.",
+    }
+  },
   confirmationView: {
     paidTitle: "Pago confirmado",
     pendingTitle: "Reservación registrada",
@@ -387,6 +407,7 @@ export const es = {
     ctaTitleEm: "experiencias",
     ctaDesc: "Explora nuestra colección de rutas seleccionadas — sobrevuelos al amanecer, cenotes ocultos, inmersiones culinarias y expediciones por todo México.",
     ctaBtn: "Explorar todo el catálogo",
+    folioBtn: "Pagar un folio a la medida",
   },
   experiencePage: {
     notFound: "Experiencia no encontrada",

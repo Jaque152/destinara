@@ -7,7 +7,7 @@ type Method = "card";
 
 interface OrderBody {
   lang?: "es" | "en";
-  items?: { slug: string; date: string; adults: number }[];
+  items?: { slug: string; date: string; adults: number; unitPrice?: number }[];
   coupon?: string | null;
   customer?: {
     firstName?: string;
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
 
   const c = body.customer ?? {};
   
-  // 1. Extracción y saneamiento (Soluciona el error de "Object is possibly undefined" de TypeScript)
+  // 1. Extracción y saneamiento
   const firstName = c.firstName?.trim();
   const lastName = c.lastName?.trim();
   const email = c.email?.trim();
@@ -63,12 +63,31 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Revisa tus datos de contacto." }, { status: 422 });
   }
 
-  // Validación de líneas e itinerario
+  // 2. Validación de líneas e itinerario (Soporte para Catálogo y Folios Dinámicos)
   const lines = [];
   for (const it of items) {
-    const p = getProduct(it.slug);
     const adults = Math.floor(Number(it.adults));
     
+    // A) Manejo para Folios a la Medida
+    if (it.slug.startsWith("folio-")) {
+      const customPrice = Number(it.unitPrice) || 0;
+      if (customPrice <= 0) {
+         return NextResponse.json({ ok: false, error: "El folio requiere un monto válido." }, { status: 422 });
+      }
+      lines.push({
+        slug: it.slug,
+        code: it.slug.replace("folio-", "").toUpperCase(),
+        title: "Folio a la medida",
+        date: it.date,
+        adults,
+        unitPrice: customPrice,
+        lineTotal: customPrice * adults,
+      });
+      continue;
+    }
+
+    // B) Manejo para Productos de Catálogo Normal
+    const p = getProduct(it.slug);
     if (!p || !/^\d{4}-\d{2}-\d{2}$/.test(it.date) || !Number.isFinite(adults) || adults < p.minPeople || adults > 20) {
       return NextResponse.json({ ok: false, error: "Hay una experiencia inválida en tu carrito." }, { status: 422 });
     }
@@ -150,7 +169,7 @@ export async function POST(req: Request) {
     invoice: body.invoice ?? null,
   };
 
-  // 2. Envío de correo con "await" obligatorio (Evita que el proceso Serverless corte el envío de Resend)
+  // Envío de correo con "await" obligatorio para evitar cortes en procesos Serverless
   try {
     await sendOrderConfirmationEmail({
       orderId: order.id,
